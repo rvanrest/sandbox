@@ -4,4 +4,4 @@
 Trial and error Repos
 
 ## procesmodel
-![../../img/beoordelen-met-indicatieregister-copy.svg](../../img/beoordelen-met-indicatieregister-copy.svg "Primare proces indicatieregister")
+![../img/beoordelen-met-indicatieregister-copy.svg](../img/beoordelen-met-indicatieregister-copy.svg#thumbnail "Primare proces indicatieregister")
