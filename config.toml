@@ -1,6 +1,6 @@
 baseurl = "https://rvanrest.github.io/sandbox/"
 theme = ["hugo-geekdoc"]
-title = "Afsprakenstelsel iWlz"
+title = "TEST TEST"
 
 # Required to get well formatted code blocks
 pygmentsUseClasses = true
