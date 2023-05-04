@@ -1,4 +1,4 @@
-baseurl = "https://zandbak_rr.gitlab.io/dummy2/"
+baseurl = "https://rvanrest.github.io/sandbox/"
 theme = ["hugo-geekdoc"]
 title = "Afsprakenstelsel iWlz"
 
