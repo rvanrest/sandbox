@@ -4,7 +4,7 @@ en hier wat tekst, en uitleg
 
 ## subtitel
 
-en nog wat tesst
+en nog wat test
 
 ### nog een paragraaf
 
