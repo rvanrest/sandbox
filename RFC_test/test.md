@@ -1,6 +1,6 @@
 # Hier de titel
 
-en hier wat tekst
+en hier wat tekst, en uitleg
 
 ## subtitel
 
