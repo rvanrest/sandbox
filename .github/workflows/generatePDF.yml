@@ -3,7 +3,7 @@ name: MD to PDF
 on:
   push:
     branches:
-      - main
+      - master
     # Paths can be used to only trigger actions when you have edited certain files, such as a file within the /docs directory
     paths:
       - 'RFC_test/**.md'
