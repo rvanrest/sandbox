@@ -9,7 +9,7 @@ repo voor het testen van sql-queries op het bemiddelingsregsiter.
     - [Client](#client)
     - [Bemiddeling](#bemiddeling)
     - [ZorgInNatura](#zorginnatura)
-      - [schematisch](#schematisch)
+      - [schematisch periode overlap](#schematisch-periode-overlap)
     - [Overdracht](#overdracht)
     - [Overdrachtspecificatie](#overdrachtspecificatie)
   - [Queries](#queries)
@@ -60,7 +60,7 @@ De database bevat de volgende testdata
 | ZIN7           | BEM1          | 2022-01-01             | ZA5        | ZK1                   | 2022-01-01         | 2023-03-31          |
 | ZIN8           | BEM2          | 2022-01-01             | ZA6        | ZK1                   | 2022-01-01         | 2022-12-31          |
 
-#### schematisch
+#### schematisch periode overlap
 | 2022-Q4 | 2023-Q1 | 2023-Q2 | 2023-Q3 | 2023-Q4 | 2024-Q1 |  oo  |
 |:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:----:|
 |         |         |         |   ZIN1  |   ZIN1  |         |      |
@@ -210,7 +210,7 @@ SELECT *
                                     )
    AND maxDate >= date('now') -- hou rekening met het verstrijken van de inzage termijn
  ;
- 
+
  ```
  **Resultaat matrix 1b**
 | vraag \ antwoord | **ZIN1** | **ZIN2** | **ZIN3** | **ZIN4** | **ZIN5** | **ZIN6** | **ZIN7** | **ZIN8** |
@@ -240,3 +240,8 @@ SELECT *
    AND zin.bemiddelingID = bm.bemiddelingID
 ;
 ```
+ **Resultaat matrix 2**
+| vraag \ antwoord | **ZIN1** | **ZIN2** | **ZIN3** | **ZIN4** | **ZIN5** | **ZIN6** | **ZIN7** | **ZIN8** |
+|:----------------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
+|     **OV1**      |          |          |          |    ja    |          |          |          |    ja    |
+
