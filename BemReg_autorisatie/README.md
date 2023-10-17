@@ -114,7 +114,7 @@ SELECT *
                                        FROM ZorgInNatura z2 
                                       WHERE z2.zorgInNaturaID = "ZIN7"
                                     )
--- 3. combineer met einddatum is groter dan de begin van geselecteerde (overlap met begin) maar niet na geselecteerde gestart						
+-- 3. combineer met einddatum is groter dan de begin van geselecteerde (overlap met begin) maar niet na geselecteerde gestart
  UNION
 SELECT *
   FROM Bemiddeling b1
