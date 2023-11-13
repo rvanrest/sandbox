@@ -110,11 +110,11 @@ SELECT *
 SELECT *
   FROM Overdracht ov
 	 , Overdrachtspecificatie ovs
-	 , ZorgInNatura zin
 	 , Bemiddeling bm
- WHERE ov.overdrachtID = "OV1" -- opgevraagde overdracht
-   AND ov.verantwoordelijkZorgkantoor = "ZK3" -- tbv autorisatiecontrole
+	 , Bemiddelingspecificatie zin
+ WHERE ov.overdrachtID = "18c1f9a6-d6f9-4133-9c9a-2f88c1f25707" -- opgevraagde overdracht
+--   AND ov.verantwoordelijkZorgkantoor = "ZK3" -- tbv autorisatiecontrole
    AND ov.overdrachtID = ovs.overdrachtID
-   AND ovs.zorgInNaturaID = zin.zorgInNaturaID
+   AND ovs.bemiddelingspecificatieID = zin.bemiddelingspecificatieID
    AND zin.bemiddelingID = bm.bemiddelingID
 ;
