@@ -6,6 +6,8 @@ Zie publicatie https://zandbak_rr.gitlab.io/dummy2/
 
 **Hier komt een andere inhoud en lokatie voor.**
 
+issue fix
+
 [[_TOC_]]
 
 # Opbouw pagina's en repository
