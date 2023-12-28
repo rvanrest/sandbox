@@ -1,0 +1,70 @@
+@startuml Autorisatie-flow-raadplegen-melden
+' !pragma teoz true
+
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+autonumber "<b>[000]"
+
+box "Deelnemer" #LightYellow
+    participant "Client" as Client
+end box
+
+box "nID"
+    participant "autorisatieserver" as AuthzServer #lightblue
+    participant "nID Filter" as Filter #lightblue
+    participant "OPA" as OPA #LightBlue
+    participant "Resource-proxy" as nIDResourceServer #lightblue
+end box
+
+box "Bronhouder" #lightblue
+    participant "Resource-server \n(GraphQL-server)" as ResourceServer
+    participant "Datasource" as Datasource
+end box
+
+activate Client
+    Client -> AuthzServer: **Aanvragen van autorisatie**\n"scope": "registers/resource:read"\n Authenticatiemiddel
+    activate AuthzServer
+        AuthzServer -> AuthzServer: Valideer Authenticatiemiddel
+        AuthzServer -> AuthzServer: Run Rule-engine o.b.v. scope(s)
+        activate AuthzServer #LightGray
+            AuthzServer -> AuthzServer: Valideer autorisatie
+            AuthzServer -> AuthzServer: Genereer Access-Token
+            activate AuthzServer #DarkGray
+            deactivate AuthzServer
+        deactivate AuthzServer
+        AuthzServer --> Client --: 200 Response (JWT-Token)
+    deactivate AuthzServer
+deactivate Client
+
+Client -> nIDResourceServer: **GraphQL Query**\nAuthenticatiemiddel + JWT-Token
+
+activate Client
+    activate nIDResourceServer        
+        activate Filter #Orange
+            note right of Filter #Orange: Inline filtering requests
+            Filter -> Filter: Valideer Authenticatiemiddel
+            Filter -> Filter: Valideer Access-Token
+            Filter -> Filter: Valideer GraphQL           
+            Filter -> OPA: Valideer GraphQL request met policy
+                activate OPA #Orange
+                OPA -> Filter: OK
+                deactivate OPA
+        deactivate Filter
+
+    nIDResourceServer -> ResourceServer: GraphQL Request
+
+    activate ResourceServer
+        ResourceServer -> Datasource: Data-Request
+        activate Datasource
+        Datasource -> ResourceServer: Data-Response
+        deactivate Datasource
+        ResourceServer --> nIDResourceServer: 200 Response (JSON)   
+    deactivate ResourceServer
+
+    nIDResourceServer --> Client: 200 Response (JSON)
+
+    deactivate nIDResourceServer
+deactivate Client
+
+
+@enduml

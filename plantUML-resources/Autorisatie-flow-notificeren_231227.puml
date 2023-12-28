@@ -1,0 +1,75 @@
+@startuml Autorisatie-flow-raadplegen-melden
+' !pragma teoz true
+
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+autonumber "<b>[000]"
+
+box "Bronhouder" #lightblue
+    participant "Datasource" as Datasource
+    participant "Resource-server" as BResourceServer
+end box
+
+box "nID"
+    participant "autorisatieserver" as AuthzServer #lightblue
+    participant "nID Filter" as Filter #lightblue
+    participant "OPA" as OPA #LightBlue
+    participant "Resource-proxy" as nIDResourceServer #lightblue
+end box
+
+box "Deelnemer" #LightYellow
+    participant "Resource-server" as ResourceServer
+end box
+
+activate Datasource
+    Datasource -> Datasource: trigger-event
+    Datasource -> BResourceServer: Notificatie opstellen
+deactivate Datasource
+
+activate BResourceServer
+    BResourceServer -> AuthzServer: **Aanvragen van autorisatie**\n"scope": "registers/resource:read"\n Authenticatiemiddel
+    activate BResourceServer #LightSkyBlue 
+    activate AuthzServer
+        AuthzServer -> AuthzServer: Valideer Authenticatiemiddel
+        AuthzServer -> AuthzServer: Run Rule-engine o.b.v. scope(s)
+        activate AuthzServer #LightGray
+            AuthzServer -> AuthzServer: Valideer autorisatie
+            AuthzServer -> AuthzServer: Genereer Access-Token
+            activate AuthzServer #DarkGray
+            deactivate AuthzServer
+        deactivate AuthzServer
+        AuthzServer --> BResourceServer --: 200 Response (JWT-Token)
+    deactivate AuthzServer
+    deactivate BResourceServer
+
+    BResourceServer -> nIDResourceServer: **Notificatie verzenden**\nAuthenticatiemiddel + JWT-Token
+
+    activate BResourceServer #LightSkyBlue 
+    activate nIDResourceServer        
+        activate Filter #Orange
+            note right of Filter #Orange: Inline filtering requests
+            Filter -> Filter: Valideer Authenticatiemiddel
+            Filter -> Filter: Valideer Access-Token
+            Filter -> Filter: Valideer Notificatie           
+            Filter -> OPA: Valideer Notificatie met policy
+                activate OPA #Orange
+                OPA -> Filter: OK
+                deactivate OPA
+        deactivate Filter
+
+        nIDResourceServer -> ResourceServer: Notificatie verzenden
+
+        activate ResourceServer
+            ResourceServer -> ResourceServer: Notificatie verwerken
+            ResourceServer -> nIDResourceServer: 200 Response
+        deactivate ResourceServer
+        
+        nIDResourceServer --> BResourceServer: 200 Response
+
+    deactivate nIDResourceServer
+    deactivate BResourceServer
+
+deactivate BResourceServer
+
+
+@enduml

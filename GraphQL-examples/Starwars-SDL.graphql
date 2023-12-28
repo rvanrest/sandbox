@@ -2,6 +2,27 @@ schema {
   query: Root
 }
 
+type Root {
+  allFilms(after: String, before: String, first: Int, last: Int): FilmsConnection
+  allPeople(after: String, before: String, first: Int, last: Int): PeopleConnection
+  allPlanets(after: String, before: String, first: Int, last: Int): PlanetsConnection
+  allSpecies(after: String, before: String, first: Int, last: Int): SpeciesConnection
+  allStarships(after: String, before: String, first: Int, last: Int): StarshipsConnection
+  allVehicles(after: String, before: String, first: Int, last: Int): VehiclesConnection
+  film(filmID: ID, id: ID): Film
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+  person(id: ID, personID: ID): Person
+  planet(id: ID, planetID: ID): Planet
+  species(id: ID, speciesID: ID): Species
+  starship(id: ID, starshipID: ID): Starship
+  vehicle(id: ID, vehicleID: ID): Vehicle
+}
+
 """A single film."""
 type Film implements Node {
   characterConnection(after: String, before: String, first: Int, last: Int): FilmCharactersConnection
