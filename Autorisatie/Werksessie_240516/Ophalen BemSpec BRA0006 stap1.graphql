@@ -1,0 +1,39 @@
+query Bemiddelingspecificatie {
+    bemiddelingspecificatie(
+        where: {
+            bemiddelingspecificatieID: { eq: "c37239b0-9e3d-4c00-88fd-01f37e590fc0" }
+            uitvoerendZorgkantoor: { eq: "5005" }
+        }
+    ) {
+        bemiddelingspecificatieID
+        leveringsvorm
+        zzpCode
+        toewijzingIngangsdatum
+        toewijzingEinddatum
+        instelling
+        uitvoerendZorgkantoor
+        vaststellingMoment
+        percentage
+        opname
+        redenIntrekking
+        etmalen
+        instellingBestemming
+        soortToewijzing
+        bemiddeling {
+            bemiddelingID
+            wlzIndicatieID
+            verantwoordelijkZorgkantoor
+            verantwoordelijkheidIngangsdatum
+            verantwoordelijkheidEinddatum
+            client {
+                bsn
+                clientID
+                taal
+                communicatievorm
+                huisarts
+                leefeenheid
+            }
+
+        }
+    }
+}

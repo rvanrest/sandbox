@@ -1,0 +1,41 @@
+query Bemiddelingspecificatie {
+    bemiddelingspecificatie(
+        where: {
+            bemiddelingspecificatieID: { eq: "c37239b0-9e3d-4c00-88fd-01f37e590fc0" }
+            instelling: { eq: "66600011" }
+        }
+    ) {
+        bemiddelingspecificatieID
+        leveringsvorm
+        zzpCode
+        toewijzingIngangsdatum
+        toewijzingEinddatum
+        instelling
+        uitvoerendZorgkantoor
+        vaststellingMoment
+        percentage
+        opname
+        redenIntrekking
+        etmalen
+        instellingBestemming
+        soortToewijzing
+        bemiddeling {
+            bemiddelingID
+            wlzIndicatieID
+            verantwoordelijkZorgkantoor
+            verantwoordelijkheidIngangsdatum
+            verantwoordelijkheidEinddatum
+            # Bemiddelingspecificaties van de bemiddeling mag je niet ophalen zonder datumfilter
+            client {
+                bsn
+                clientID
+                taal
+                communicatievorm
+                huisarts
+                leefeenheid
+                # Sub entiteiten van de client mag je niet ophalen zonder datumfilter
+            }
+
+        }
+    }
+}

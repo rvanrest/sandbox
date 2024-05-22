@@ -1,0 +1,67 @@
+query Overdracht {
+    overdracht(
+        where: {
+            overdrachtID: { eq: "308c5cae-479d-441d-ac81-004e89536d86" }
+            verantwoordelijkZorgkantoor: { eq: "5000" }
+            overdrachtDatum: { eq: "2024-02-21" }
+        }
+    ) {
+        overdrachtID
+        verantwoordelijkZorgkantoor
+        overdrachtDatum
+        verhuisDatum
+        vaststellingMoment
+        bemiddeling {
+            bemiddelingID
+            wlzIndicatieID
+            verantwoordelijkZorgkantoor
+            verantwoordelijkheidIngangsdatum
+            verantwoordelijkheidEinddatum
+            # BemSpec van de bemiddeling mag niet vanuit de bemiddeling opgehaald worden
+            client {
+                clientID
+                verantwoordelijkZorgkantoor
+                bsn
+                leefeenheid
+                huisarts
+                communicatievorm
+                taal
+                # Alle sub entiteiten van de client moet je ophalen met datumfilter
+                coordinatorZorgThuis(
+                    where: {
+                        ingangsdatum: { ngt: "2024-02-21" }
+                        or: [{ einddatum: { gt: "2024-02-21" } }, { einddatum: { eq: null } }]
+                    }
+                ) {
+                    coordinatorZorgThuisID
+                    instelling
+                    ingangsdatum
+                    einddatum
+                }
+            }
+        }
+        overdrachtspecificatie {
+            overdrachtspecificatieID
+            leveringsstatus
+            leveringsstatusClassificatie
+            oorspronkelijkeToewijzingEinddatum
+            bemiddelingspecificatie {
+                bemiddelingspecificatieID
+                leveringsvorm
+                zzpCode
+                toewijzingIngangsdatum
+                toewijzingEinddatum
+                instelling
+                uitvoerendZorgkantoor
+                vaststellingMoment
+                percentage
+                opname
+                redenIntrekking
+                etmalen
+                instellingBestemming
+                soortToewijzing
+                # Hiervan mag je niet de bemiddeling ophalen
+            }
+        }
+    }
+}
