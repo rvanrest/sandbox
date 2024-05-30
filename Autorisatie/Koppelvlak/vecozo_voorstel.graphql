@@ -1,27 +1,5 @@
 
 
-
-
-
-
-
-
-
-
-type Bemiddeling {
-  bemiddelingspecificatie(
-    where: BemiddelingspecificatieFilterInput
-    order: [BemiddelingspecificatieSortInput!]
-  ): [Bemiddelingspecificatie!]
-  bemiddelingID: UUID!
-  client: Client!
-  wlzIndicatieID: UUID!
-  verantwoordelijkZorgkantoor: String!
-  verantwoordelijkheidIngangsdatum: Date!
-  verantwoordelijkheidEinddatum: Date
-  overdracht: Overdracht
-}
-
 input OverdrachtspecificatieFilterInput {
   and: [OverdrachtspecificatieFilterInput!]
   or: [OverdrachtspecificatieFilterInput!]
@@ -49,11 +27,11 @@ input ContactpersoonContactgegevensFilterInput {
   or: [ContactpersoonContactgegevensFilterInput!]
   contactpersoonContactgegevensID: UuidOperationFilterInput
   contactpersoon: ContactpersoonFilterInput
-  adresSoort: StringOperationFilterInput
+  adressoort: StringOperationFilterInput """ @@ adressoort is een woord, kleine s """
   straatnaam: StringOperationFilterInput
   huisnummer: IntOperationFilterInput
   huisletter: StringOperationFilterInput
-  huisnummerToevoeging: StringOperationFilterInput
+  huisnummertoevoeging: StringOperationFilterInput  """ @@ huisnummertoevoeging is een woord, kleine letter t """
   postcode: StringOperationFilterInput
   plaatsnaam: StringOperationFilterInput
   land: StringOperationFilterInput
@@ -70,11 +48,11 @@ input ContactpersoonContactgegevensFilterInput {
 input ContactpersoonContactgegevensSortInput {
   contactpersoonContactgegevensID: SortEnumType
   contactpersoon: ContactpersoonSortInput
-  adresSoort: SortEnumType
+  adressoort: SortEnumType """ @@ adressoort is een woord, kleine s """
   straatnaam: SortEnumType
   huisnummer: SortEnumType
   huisletter: SortEnumType
-  huisnummerToevoeging: SortEnumType
+  huisnummertoevoeging: SortEnumType """ huisnummertoevoeging is een woord, kleine t """
   postcode: SortEnumType
   plaatsnaam: SortEnumType
   land: SortEnumType
@@ -142,11 +120,11 @@ input ClientContactgegevensFilterInput {
   or: [ClientContactgegevensFilterInput!]
   clientContactgegevensID: UuidOperationFilterInput
   client: ClientFilterInput
-  adresSoort: StringOperationFilterInput
+  adressoort: StringOperationFilterInput """ @@ adressoort is een woord, kleine s """
   straatnaam: StringOperationFilterInput
   huisnummer: IntOperationFilterInput
   huisletter: StringOperationFilterInput
-  huisnummerToevoeging: StringOperationFilterInput
+  huisnummertoevoeging: StringOperationFilterInput """ @@ huisnummertoevoeging is een woord, kleine t """
   postcode: StringOperationFilterInput
   plaatsnaam: StringOperationFilterInput
   land: StringOperationFilterInput
@@ -163,11 +141,11 @@ input ClientContactgegevensFilterInput {
 input ClientContactgegevensSortInput {
   clientContactgegevensID: SortEnumType
   client: ClientSortInput
-  adresSoort: SortEnumType
+  adressoort: SortEnumType """ @@ adressoort is een woord, kleine s """
   straatnaam: SortEnumType
   huisnummer: SortEnumType
   huisletter: SortEnumType
-  huisnummerToevoeging: SortEnumType
+  huisnummertoevoeging: SortEnumType """ @@ huisnummertoevoeging is een woord, kleine letter t """
   postcode: SortEnumType
   plaatsnaam: SortEnumType
   land: SortEnumType
@@ -257,6 +235,137 @@ input BemiddelingspecificatieSortInput {
   overdrachtspecificatie: OverdrachtspecificatieSortInput
 }
 
+input OverdrachtFilterInput {
+  and: [OverdrachtFilterInput!]
+  or: [OverdrachtFilterInput!]
+  overdrachtID: UuidOperationFilterInput
+  bemiddelingID: UuidOperationFilterInput
+  verantwoordelijkZorgkantoor: StringOperationFilterInput
+  overdrachtDatum: DateOperationFilterInput
+  verhuisDatum: DateOperationFilterInput
+  vaststellingMoment: DateTimeOperationFilterInput
+  overdrachtspecificatie: ListFilterInputTypeOfOverdrachtspecificatieFilterInput
+  bemiddeling: BemiddelingFilterInput
+}
+
+input OverdrachtSortInput {
+  overdrachtID: SortEnumType
+  bemiddelingID: SortEnumType
+  verantwoordelijkZorgkantoor: SortEnumType
+  overdrachtDatum: SortEnumType
+  verhuisDatum: SortEnumType
+  vaststellingMoment: SortEnumType
+  bemiddeling: BemiddelingSortInput
+}
+
+input ClientFilterInput {
+  and: [ClientFilterInput!]
+  or: [ClientFilterInput!]
+  clientID: UuidOperationFilterInput
+  verantwoordelijkZorgkantoor: StringOperationFilterInput
+  bsn: StringOperationFilterInput
+  leefeenheid: StringOperationFilterInput
+  huisarts: StringOperationFilterInput
+  communicatievorm: StringOperationFilterInput
+  taal: StringOperationFilterInput
+  bemiddeling: ListFilterInputTypeOfBemiddelingFilterInput
+  dossierhouder: ListFilterInputTypeOfDossierhouderFilterInput
+  coordinatorZorgThuis: ListFilterInputTypeOfCoordinatorZorgThuisFilterInput
+  contactgegevens: ListFilterInputTypeOfClientContactgegevensFilterInput
+  contactpersoon: ListFilterInputTypeOfContactpersoonFilterInput
+}
+
+input ClientSortInput {
+  clientID: SortEnumType
+  verantwoordelijkZorgkantoor: SortEnumType
+  bsn: SortEnumType
+  leefeenheid: SortEnumType
+  huisarts: SortEnumType
+  communicatievorm: SortEnumType
+  taal: SortEnumType
+}
+
+input BemiddelingFilterInput {
+  and: [BemiddelingFilterInput!]
+  or: [BemiddelingFilterInput!]
+  bemiddelingID: UuidOperationFilterInput
+  client: ClientFilterInput
+  clientID: UuidOperationFilterInput
+  wlzIndicatieID: UuidOperationFilterInput
+  verantwoordelijkZorgkantoor: StringOperationFilterInput
+  verantwoordelijkheidIngangsdatum: DateOperationFilterInput
+  verantwoordelijkheidEinddatum: DateOperationFilterInput
+  bemiddelingspecificatie: ListFilterInputTypeOfBemiddelingspecificatieFilterInput
+  overdracht: OverdrachtFilterInput
+}
+
+input BemiddelingSortInput {
+  bemiddelingID: SortEnumType
+  client: ClientSortInput
+  clientID: SortEnumType
+  wlzIndicatieID: SortEnumType
+  verantwoordelijkZorgkantoor: SortEnumType
+  verantwoordelijkheidIngangsdatum: SortEnumType
+  verantwoordelijkheidEinddatum: SortEnumType
+  overdracht: OverdrachtSortInput
+}
+
+input ListFilterInputTypeOfOverdrachtspecificatieFilterInput {
+  all: OverdrachtspecificatieFilterInput
+  none: OverdrachtspecificatieFilterInput
+  some: OverdrachtspecificatieFilterInput
+  any: Boolean
+}
+
+input ListFilterInputTypeOfBemiddelingFilterInput {
+  all: BemiddelingFilterInput
+  none: BemiddelingFilterInput
+  some: BemiddelingFilterInput
+  any: Boolean
+}
+
+input ListFilterInputTypeOfDossierhouderFilterInput {
+  all: DossierhouderFilterInput
+  none: DossierhouderFilterInput
+  some: DossierhouderFilterInput
+  any: Boolean
+}
+
+input ListFilterInputTypeOfCoordinatorZorgThuisFilterInput {
+  all: CoordinatorZorgThuisFilterInput
+  none: CoordinatorZorgThuisFilterInput
+  some: CoordinatorZorgThuisFilterInput
+  any: Boolean
+}
+
+input ListFilterInputTypeOfClientContactgegevensFilterInput {
+  all: ClientContactgegevensFilterInput
+  none: ClientContactgegevensFilterInput
+  some: ClientContactgegevensFilterInput
+  any: Boolean
+}
+
+input ListFilterInputTypeOfContactpersoonFilterInput {
+  all: ContactpersoonFilterInput
+  none: ContactpersoonFilterInput
+  some: ContactpersoonFilterInput
+  any: Boolean
+}
+
+input ListFilterInputTypeOfBemiddelingspecificatieFilterInput {
+  all: BemiddelingspecificatieFilterInput
+  none: BemiddelingspecificatieFilterInput
+  some: BemiddelingspecificatieFilterInput
+  any: Boolean
+}
+
+input ListFilterInputTypeOfContactpersoonContactgegevensFilterInput {
+  all: ContactpersoonContactgegevensFilterInput
+  none: ContactpersoonContactgegevensFilterInput
+  some: ContactpersoonContactgegevensFilterInput
+  any: Boolean
+}
+
 input UuidOperationFilterInput {
   eq: UUID
   neq: UUID
@@ -302,32 +411,19 @@ input DateOperationFilterInput {
   nlte: Date
 }
 
-input OverdrachtFilterInput {
-  and: [OverdrachtFilterInput!]
-  or: [OverdrachtFilterInput!]
-  overdrachtID: UuidOperationFilterInput
-  bemiddelingID: UuidOperationFilterInput
-  verantwoordelijkZorgkantoor: StringOperationFilterInput
-  overdrachtDatum: DateOperationFilterInput
-  verhuisDatum: DateOperationFilterInput
-  vaststellingMoment: DateTimeOperationFilterInput
-  overdrachtspecificatie: ListFilterInputTypeOfOverdrachtspecificatieFilterInput
-  bemiddeling: BemiddelingFilterInput
-}
-
-enum SortEnumType {
-  ASC
-  DESC
-}
-
-input OverdrachtSortInput {
-  overdrachtID: SortEnumType
-  bemiddelingID: SortEnumType
-  verantwoordelijkZorgkantoor: SortEnumType
-  overdrachtDatum: SortEnumType
-  verhuisDatum: SortEnumType
-  vaststellingMoment: SortEnumType
-  bemiddeling: BemiddelingSortInput
+input DateTimeOperationFilterInput {
+  eq: DateTime
+  neq: DateTime
+  in: [DateTime]
+  nin: [DateTime]
+  gt: DateTime
+  ngt: DateTime
+  gte: DateTime
+  ngte: DateTime
+  lt: DateTime
+  nlt: DateTime
+  lte: DateTime
+  nlte: DateTime
 }
 
 input IntOperationFilterInput {
@@ -345,221 +441,7 @@ input IntOperationFilterInput {
   nlte: Int
 }
 
-input ClientFilterInput {
-  and: [ClientFilterInput!]
-  or: [ClientFilterInput!]
-  clientID: UuidOperationFilterInput
-  verantwoordelijkZorgkantoor: StringOperationFilterInput
-  bsn: StringOperationFilterInput
-  leefeenheid: StringOperationFilterInput
-  huisarts: StringOperationFilterInput
-  communicatievorm: StringOperationFilterInput
-  taal: StringOperationFilterInput
-  bemiddeling: ListFilterInputTypeOfBemiddelingFilterInput
-  dossierhouder: ListFilterInputTypeOfDossierhouderFilterInput
-  coordinatorZorgThuis: ListFilterInputTypeOfCoordinatorZorgThuisFilterInput
-  contactgegevens: ListFilterInputTypeOfClientContactgegevensFilterInput
-  contactpersoon: ListFilterInputTypeOfContactpersoonFilterInput
-}
-
-input ListFilterInputTypeOfContactpersoonContactgegevensFilterInput {
-  all: ContactpersoonContactgegevensFilterInput
-  none: ContactpersoonContactgegevensFilterInput
-  some: ContactpersoonContactgegevensFilterInput
-  any: Boolean
-}
-
-input ClientSortInput {
-  clientID: SortEnumType
-  verantwoordelijkZorgkantoor: SortEnumType
-  bsn: SortEnumType
-  leefeenheid: SortEnumType
-  huisarts: SortEnumType
-  communicatievorm: SortEnumType
-  taal: SortEnumType
-}
-
-input DateTimeOperationFilterInput {
-  eq: DateTime
-  neq: DateTime
-  in: [DateTime]
-  nin: [DateTime]
-  gt: DateTime
-  ngt: DateTime
-  gte: DateTime
-  ngte: DateTime
-  lt: DateTime
-  nlt: DateTime
-  lte: DateTime
-  nlte: DateTime
-}
-
-input BemiddelingFilterInput {
-  and: [BemiddelingFilterInput!]
-  or: [BemiddelingFilterInput!]
-  bemiddelingID: UuidOperationFilterInput
-  client: ClientFilterInput
-  clientID: UuidOperationFilterInput
-  wlzIndicatieID: UuidOperationFilterInput
-  verantwoordelijkZorgkantoor: StringOperationFilterInput
-  verantwoordelijkheidIngangsdatum: DateOperationFilterInput
-  verantwoordelijkheidEinddatum: DateOperationFilterInput
-  bemiddelingspecificatie: ListFilterInputTypeOfBemiddelingspecificatieFilterInput
-  overdracht: OverdrachtFilterInput
-}
-
-input BemiddelingSortInput {
-  bemiddelingID: SortEnumType
-  client: ClientSortInput
-  clientID: SortEnumType
-  wlzIndicatieID: SortEnumType
-  verantwoordelijkZorgkantoor: SortEnumType
-  verantwoordelijkheidIngangsdatum: SortEnumType
-  verantwoordelijkheidEinddatum: SortEnumType
-  overdracht: OverdrachtSortInput
-}
-
-"""
-The `Date` scalar represents an ISO-8601 compliant date type.
-"""
-scalar Date
-
-input ListFilterInputTypeOfOverdrachtspecificatieFilterInput {
-  all: OverdrachtspecificatieFilterInput
-  none: OverdrachtspecificatieFilterInput
-  some: OverdrachtspecificatieFilterInput
-  any: Boolean
-}
-
-input ListFilterInputTypeOfBemiddelingFilterInput {
-  all: BemiddelingFilterInput
-  none: BemiddelingFilterInput
-  some: BemiddelingFilterInput
-  any: Boolean
-}
-
-input ListFilterInputTypeOfDossierhouderFilterInput {
-  all: DossierhouderFilterInput
-  none: DossierhouderFilterInput
-  some: DossierhouderFilterInput
-  any: Boolean
-}
-
-input ListFilterInputTypeOfCoordinatorZorgThuisFilterInput {
-  all: CoordinatorZorgThuisFilterInput
-  none: CoordinatorZorgThuisFilterInput
-  some: CoordinatorZorgThuisFilterInput
-  any: Boolean
-}
-
-input ListFilterInputTypeOfClientContactgegevensFilterInput {
-  all: ClientContactgegevensFilterInput
-  none: ClientContactgegevensFilterInput
-  some: ClientContactgegevensFilterInput
-  any: Boolean
-}
-
-input ListFilterInputTypeOfContactpersoonFilterInput {
-  all: ContactpersoonFilterInput
-  none: ContactpersoonFilterInput
-  some: ContactpersoonFilterInput
-  any: Boolean
-}
-
-"""
-The `DateTime` scalar represents an ISO-8601 compliant date time type.
-"""
-scalar DateTime @specifiedBy(url: "https://www.graphql-scalars.com/date-time")
-
-input ListFilterInputTypeOfBemiddelingspecificatieFilterInput {
-  all: BemiddelingspecificatieFilterInput
-  none: BemiddelingspecificatieFilterInput
-  some: BemiddelingspecificatieFilterInput
-  any: Boolean
-}
-
-type Query {
-  client(where: ClientFilterInput): [Client!]!
-  bemiddeling(where: BemiddelingFilterInput): [Bemiddeling!]!
-  bemiddelingspecificatie(
-    where: BemiddelingspecificatieFilterInput
-  ): [Bemiddelingspecificatie!]!
-  overdracht(where: OverdrachtFilterInput): [Overdracht!]!
-}
-
-type Bemiddelingspecificatie {
-  bemiddelingspecificatieID: UUID!
-  leveringsvorm: String!
-  zzpCode: String!
-  toewijzingIngangsdatum: Date!
-  toewijzingEinddatum: Date
-  instelling: String
-  uitvoerendZorgkantoor: String!
-  vaststellingMoment: DateTime!
-  percentage: Int!
-  opname: String
-  redenIntrekking: String
-  etmalen: String
-  instellingBestemming: String
-  soortToewijzing: String!
-  bemiddeling: Bemiddeling!
-  overdrachtspecificatie: Overdrachtspecificatie
-}
-
-type ContactpersoonContactgegevens {
-  contactpersoonContactgegevensID: UUID!
-  contactpersoon: Contactpersoon!
-  adresSoort: String!
-  straatnaam: String
-  huisnummer: Int
-  huisletter: String
-  huisnummerToevoeging: String
-  postcode: String
-  plaatsnaam: String
-  land: String
-  aanduidingWoonadres: String
-  emailadres: String
-  telefoonnummer01: String
-  landnummer01: String
-  telefoonnummer02: String
-  landnummer02: String
-  ingangsdatum: Date!
-  einddatum: Date
-}
-
-type ClientContactgegevens {
-  clientContactgegevensID: UUID!
-  client: Client!
-  adresSoort: String!
-  straatnaam: String
-  huisnummer: Int
-  huisletter: String
-  huisnummerToevoeging: String
-  postcode: String
-  plaatsnaam: String
-  land: String
-  aanduidingWoonadres: String
-  emailadres: String
-  telefoonnummer01: String
-  landnummer01: String
-  telefoonnummer02: String
-  landnummer02: String
-  ingangsdatum: Date!
-  einddatum: Date
-}
-
-type CoordinatorZorgThuis {
-  coordinatorZorgThuisID: UUID!
-  instelling: String!
-  ingangsdatum: Date!
-  einddatum: Date
-  client: Client!
-}
-
-type Dossierhouder {
-  dossierhouderID: UUID!
-  instelling: String!
-  ingangsdatum: Date!
-  einddatum: Date
-  client: Client!
+enum SortEnumType {
+  ASC
+  DESC
 }
