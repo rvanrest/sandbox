@@ -1,8 +1,14 @@
+# QBR-ZA-0001q.graphql
+# Query voor Zorgaanbieder op Bemiddelingsregister
+# Verplichte input:
+#   - bemiddelingspecificatieID
+#   - agbcode instelling 
+
 query Bemiddelingspecificatie {
     bemiddelingspecificatie(
         where: {
-            bemiddelingspecificatieID: { eq: "c37239b0-9e3d-4c00-88fd-01f37e590fc0" }
-            instelling: { eq: "66600011" }
+            bemiddelingspecificatieID: { eq: "UUID bemiddelingsspecificatieID" }
+            instelling: { eq: "agbCode aanbieder" }
         }
     ) {
         bemiddelingspecificatieID

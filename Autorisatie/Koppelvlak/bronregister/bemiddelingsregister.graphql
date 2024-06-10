@@ -5,114 +5,54 @@ datum 2024-06-01
 Gebaseerd op Bemiddelingregister 1
 """
 
-"""
-The `UUID` scalar represents an version 4 UUID specification
-"""
-scalar UUID @specifiedBy(url: "https://tools.ietf.org/html/rfc4122") 
-
-"""
-The `Date` scalar represents an ISO-8601 compliant date type. YYYY-MM-DD
-"""
-scalar Date @specifiedBy(url: "https://scalars.graphql.org/andimarek/local-date") 
-
-"""
-The `DateTime` scalar represents an ISO-8601 compliant date time type.
-"""
-scalar DateTime @specifiedBy(url: "https://scalars.graphql.org/andimarek/date-time")
-
-
 schema {
   query: Query
 }
 
+"""The `UUID` scalar represents an version 4 UUID specification"""
+scalar UUID @specifiedBy(url: "https://tools.ietf.org/html/rfc4122")
+
+"""The `Date` scalar represents an ISO-8601 compliant date type. YYYY-MM-DD"""
+scalar Date @specifiedBy(url: "https://scalars.graphql.org/andimarek/local-date")
+
+"""The `DateTime` scalar represents an ISO-8601 compliant date time type."""
+scalar DateTime @specifiedBy(url: "https://scalars.graphql.org/andimarek/date-time")
+
+""" 
+  QUERY definities 
 """
-de volgende bevragingen zijn er gedefinieerd
-"""
-type Query {
-  """
-  Raadplegen van gegevens op basis van bemiddelingspecificatieID en raadpleger optioneel
-  """
-  BemiddelingspecificatieByID(
-    bemiddelingspecificatieID: UUID!
-    instelling: String
-    uitvoerendZorgkantoor: String
-  ): Bemiddelingspecificatie!
-
-  """
-  Raadplegen van gegevens op basis van bemiddelingID
-  """
-  BemiddelingByID(
-    bemiddelingID: UUID!
-    verantwoordelijkZorgkantoor: String
-  ): Bemiddeling!
-
-  """
-  Raadplegen van gegevens door overdracht op basis van overdrachtID.
-  """
-  OverdrachtByID(
-    overdrachtID: UUID!
-    verantwoordelijkZorgkantoor: String
-  ): Overdracht!
-
-  """
-  Controleer combinatie wlzIndicatieID en verantwoordelijkZorgkantoor
-  """
-  BemiddelingByWlzIndicatieID(
-    wlzIndicatieID: UUID!
-    verantwoordelijkZorgkantoor: String!
-  ): Bemiddeling!
-
-  """
-  Raadplegen gegevens op basis van bsn - voor raadplegingen vanuit Client
-  """
-  BemiddelingenbyBsn(bsn: String!): Client!
-
-  """
-  Haal Contacten op voor bsn voor raadplegingen vanuit Client
-  """
-  ContactgegevensByBsn(bsn: String!): Client!
-}
-
 
 type Query {
   client(where: ClientFilterInput): [Client!]!
   bemiddeling(where: BemiddelingFilterInput): [Bemiddeling!]!
-  bemiddelingspecificatie(
-    where: BemiddelingspecificatieFilterInput
-  ): [Bemiddelingspecificatie!]!
+  bemiddelingspecificatie(where: BemiddelingspecificatieFilterInput): [Bemiddelingspecificatie!]!
   overdracht(where: OverdrachtFilterInput): [Overdracht!]!
 }
 
-"Object-type"
-type Client {
-  clientID: UUID! #
-  bsn: String!
-  leefeenheid: String #COD478: Leefeenheid
-  huisarts: String
-  communicatievorm: String #COD747: Communicatievorm
-  taal: String
-}
+""" OBJECT types """
 
 type Client {
-  bemiddeling: [Bemiddeling!]! """@@ ontbreekt"""
+  bemiddeling(
+    where: BemiddelingFilterInput
+    order: [BemiddelingSortInput]
+  ): [Bemiddeling!]!
   contactpersoon(
     where: ContactpersoonFilterInput
     order: [ContactpersoonSortInput!]
-  ): [Contactpersoon!] """ @@ Client heeft niet altijd contactpersonen"""
+  ): [Contactpersoon!]
   contactgegevens(
     where: ClientContactgegevensFilterInput
     order: [ClientContactgegevensSortInput!]
-  ): [ClientContactgegevens!] """@@ Client heeft niet altijd contactgegevens"""
+  ): [ClientContactgegevens!]
   coordinatorZorgThuis(
     where: CoordinatorZorgThuisFilterInput
     order: [CoordinatorZorgThuisSortInput!]
-  ): [CoordinatorZorgThuis!] """@@ Client heeft of CZT of DH of beide"""
+  ): [CoordinatorZorgThuis!]
   dossierhouder(
     where: DossierhouderFilterInput
     order: [DossierhouderSortInput!]
-  ): [Dossierhouder!] """@@ Client heeft of CZT of DH of beide"""
+  ): [Dossierhouder!]
   clientID: UUID!
-  """@@ overbodig verantwoordelijkZorgkantoor: String!"""
   bsn: String!
   leefeenheid: String #COD478: Leefeenheid
   huisarts: String
@@ -124,7 +64,7 @@ type Bemiddeling {
   bemiddelingspecificatie(
     where: BemiddelingspecificatieFilterInput
     order: [BemiddelingspecificatieSortInput!]
-  ): [Bemiddelingspecificatie!] """@@ een Bemiddeling hoeft geen specificatie te hebben"""
+  ): [Bemiddelingspecificatie!]
   bemiddelingID: UUID!
   client: Client!
   wlzIndicatieID: UUID!
@@ -169,7 +109,6 @@ type Dossierhouder {
   client: Client!
 }
 
-
 type Overdracht {
   overdrachtID: UUID!
   verantwoordelijkZorgkantoor: String! #COD001: Zorgkantoor
@@ -193,32 +132,12 @@ type Overdrachtspecificatie {
 }
 
 type Contactpersoon {
+  contactgegevens(
+    where: ContactpersoonContactgegevensFilterInput
+    order: [ContactpersoonContactgegevensSortInput!]
+  ): [ContactpersoonContactgegevens!]
   contactpersoonID: UUID!
-  client: Client!
   relatienummer: String!
-  volgorde: Int
-  soortRelatie: String!
-  rol: String
-  relatie: String
-  geslachtsnaam: String
-  voorvoegselGeslachtsnaam: String
-  partnernaam: String
-  voorvoegselPartnernaam: String
-  voornamen: String
-  voorletters: String
-  roepnaam: String
-  naamgebruik: String
-  geslacht: String
-  geboortedatum: Date
-  geboortedatumgebruik: String
-  ingangsdatum: Date!
-  einddatum: Date
-}
-
-
-type Contactpersoon {
-  contactpersoonID: UUID!
-  relatieNummer: String!
   volgorde: Int
   soortRelatie: String! #COD472!: Soort relatie
   rol: String #COD1003: Rol
@@ -237,13 +156,6 @@ type Contactpersoon {
   geboortedatumgebruik: String #COD170: Datumgebruik
   ingangsdatum: Date!
   einddatum: Date
-  contactgegevens(
-    where: ContactpersoonContactgegevensFilterInput
-    order: [ContactpersoonContactgegevensSortInput!]
-  ): [ContactpersoonContactgegevens!]
-  """
-  @rvanrest todo collectie?
-  """
   client: Client!
 }
 
@@ -272,11 +184,11 @@ type Contactgegevens {
 type ClientContactgegevens {
   clientContactgegevensID: UUID!
   client: Client!
-  adressoort: String! """ @@ typo adressoort is een woord, kleine letter s """
+  adressoort: String!
   straatnaam: String
   huisnummer: Int
   huisletter: String
-  huisnummertoevoeging: String """ @@@ huisnummertoevoeging is een woord """
+  huisnummertoevoeging: String
   postcode: String
   plaatsnaam: String
   land: String
@@ -293,11 +205,11 @@ type ClientContactgegevens {
 type ContactpersoonContactgegevens {
   contactpersoonContactgegevensID: UUID!
   contactpersoon: Contactpersoon!
-  adressoort: String! """ @@ typo Soort is met kleine letter """
+  adressoort: String!
   straatnaam: String
   huisnummer: Int
   huisletter: String
-  huisnummertoevoeging: String """ @@@ huisnummertoevoeging is een woord """
+  huisnummertoevoeging: String
   postcode: String
   plaatsnaam: String
   land: String
@@ -311,9 +223,7 @@ type ContactpersoonContactgegevens {
   einddatum: Date
 }
 
-# Searchinput
-
-
+""" Searchinput types """
 input OverdrachtspecificatieFilterInput {
   and: [OverdrachtspecificatieFilterInput!]
   or: [OverdrachtspecificatieFilterInput!]
@@ -341,11 +251,11 @@ input ContactpersoonContactgegevensFilterInput {
   or: [ContactpersoonContactgegevensFilterInput!]
   contactpersoonContactgegevensID: UuidOperationFilterInput
   contactpersoon: ContactpersoonFilterInput
-  adressoort: StringOperationFilterInput """ @@ adressoort is een woord, kleine s """
+  adressoort: StringOperationFilterInput
   straatnaam: StringOperationFilterInput
   huisnummer: IntOperationFilterInput
   huisletter: StringOperationFilterInput
-  huisnummertoevoeging: StringOperationFilterInput  """ @@ huisnummertoevoeging is een woord, kleine letter t """
+  huisnummertoevoeging: StringOperationFilterInput
   postcode: StringOperationFilterInput
   plaatsnaam: StringOperationFilterInput
   land: StringOperationFilterInput
@@ -362,11 +272,11 @@ input ContactpersoonContactgegevensFilterInput {
 input ContactpersoonContactgegevensSortInput {
   contactpersoonContactgegevensID: SortEnumType
   contactpersoon: ContactpersoonSortInput
-  adressoort: SortEnumType """ @@ adressoort is een woord, kleine s """
+  adressoort: SortEnumType
   straatnaam: SortEnumType
   huisnummer: SortEnumType
   huisletter: SortEnumType
-  huisnummertoevoeging: SortEnumType """ huisnummertoevoeging is een woord, kleine t """
+  huisnummertoevoeging: SortEnumType
   postcode: SortEnumType
   plaatsnaam: SortEnumType
   land: SortEnumType
@@ -434,11 +344,11 @@ input ClientContactgegevensFilterInput {
   or: [ClientContactgegevensFilterInput!]
   clientContactgegevensID: UuidOperationFilterInput
   client: ClientFilterInput
-  adressoort: StringOperationFilterInput """ @@ adressoort is een woord, kleine s """
+  adressoort: StringOperationFilterInput
   straatnaam: StringOperationFilterInput
   huisnummer: IntOperationFilterInput
   huisletter: StringOperationFilterInput
-  huisnummertoevoeging: StringOperationFilterInput """ @@ huisnummertoevoeging is een woord, kleine t """
+  huisnummertoevoeging: StringOperationFilterInput
   postcode: StringOperationFilterInput
   plaatsnaam: StringOperationFilterInput
   land: StringOperationFilterInput
@@ -455,11 +365,11 @@ input ClientContactgegevensFilterInput {
 input ClientContactgegevensSortInput {
   clientContactgegevensID: SortEnumType
   client: ClientSortInput
-  adressoort: SortEnumType """ @@ adressoort is een woord, kleine s """
+  adressoort: SortEnumType
   straatnaam: SortEnumType
   huisnummer: SortEnumType
   huisletter: SortEnumType
-  huisnummertoevoeging: SortEnumType """ @@ huisnummertoevoeging is een woord, kleine letter t """
+  huisnummertoevoeging: SortEnumType
   postcode: SortEnumType
   plaatsnaam: SortEnumType
   land: SortEnumType
@@ -624,6 +534,7 @@ input BemiddelingSortInput {
   overdracht: OverdrachtSortInput
 }
 
+" ListFilterInputType_FilterInput types "
 input ListFilterInputTypeOfOverdrachtspecificatieFilterInput {
   all: OverdrachtspecificatieFilterInput
   none: OverdrachtspecificatieFilterInput
@@ -759,4 +670,3 @@ enum SortEnumType {
   ASC
   DESC
 }
-
