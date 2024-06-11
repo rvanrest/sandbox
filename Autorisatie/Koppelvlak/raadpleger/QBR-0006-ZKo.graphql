@@ -1,0 +1,179 @@
+# QBR-0005-ZKo.graphql
+# Query voor Nieuw Verantwoordelijk Zorgkantoor op Bemiddelingsregister
+# Doel: Overdracht gegevens, clientgegevens raadplegen
+# Verplichte input:
+#   - overdrachtID
+#   - uzovicode zorgkantoor
+#   - overdrachtDatum
+
+query Overdracht(
+  $overdrachtID: UUID!
+  $verantwoordelijkZorgkantoor: String!
+  $overdrachtDatum: Date!
+) {
+  overdracht(
+    where: {
+      overdrachtID: { eq: $overdrachtID }
+      verantwoordelijkZorgkantoor: { eq: $verantwoordelijkZorgkantoor }
+      overdrachtDatum: { eq: $overdrachtDatum }
+    }
+  ) {
+    overdrachtID
+    verantwoordelijkZorgkantoor
+    overdrachtDatum
+    verhuisDatum
+    vaststellingMoment
+    bemiddeling {
+      bemiddelingID
+      wlzIndicatieID
+      verantwoordelijkZorgkantoor
+      verantwoordelijkheidIngangsdatum
+      verantwoordelijkheidEinddatum
+      # BemSpec van de bemiddeling mag niet vanuit de bemiddeling opgehaald worden
+      client {
+        clientID
+        bsn
+        leefeenheid
+        huisarts
+        communicatievorm
+        taal
+        # Alle sub entiteiten van de client moet je ophalen met datumfilter
+        coordinatorZorgThuis(
+          where: {
+            ingangsdatum: { ngt: $overdrachtDatum }
+            or: [
+              { einddatum: { gt: $overdrachtDatum } }
+              { einddatum: { eq: null } }
+            ]
+          }
+        ) {
+          coordinatorZorgThuisID
+          instelling
+          ingangsdatum
+          einddatum
+        }
+        dossierhouder(
+          where: {
+            ingangsdatum: { ngt: $overdrachtDatum }
+            or: [
+              { einddatum: { gt: $overdrachtDatum } }
+              { einddatum: { eq: null } }
+            ]
+          }
+        ) {
+          dossierhouderID
+          instelling
+          ingangsdatum
+          einddatum
+        }
+        contactgegevens(
+          where: {
+            ingangsdatum: { ngt: $overdrachtDatum }
+            or: [
+              { einddatum: { gt: $overdrachtDatum } }
+              { einddatum: { eq: null } }
+            ]
+          }
+        ) {
+          clientContactgegevensID
+          adressoort
+          straatnaam
+          huisnummer
+          huisletter
+          huisnummertoevoeging
+          postcode
+          plaatsnaam
+          land
+          aanduidingWoonadres
+          emailadres
+          landnummer01
+          telefoonnummer01
+          landnummer02
+          telefoonnummer02
+          ingangsdatum
+          einddatum
+        }
+        contactpersoon(
+          where: {
+            ingangsdatum: { ngt: $overdrachtDatum }
+            or: [
+              { einddatum: { gt: $overdrachtDatum } }
+              { einddatum: { eq: null } }
+            ]
+          }
+        ) {
+          contactgegevens(
+            where: {
+              ingangsdatum: { ngt: $overdrachtDatum }
+              or: [
+                { einddatum: { gt: $overdrachtDatum } }
+                { einddatum: { eq: null } }
+              ]
+            }
+          ) {
+            contactpersoonContactgegevensID
+            adressoort
+            straatnaam
+            huisnummer
+            huisletter
+            huisnummertoevoeging
+            postcode
+            plaatsnaam
+            land
+            aanduidingWoonadres
+            emailadres
+            landnummer01
+            telefoonnummer01
+            landnummer02
+            telefoonnummer02
+            ingangsdatum
+            einddatum
+          }
+          contactpersoonID
+          relatienummer
+          volgorde
+          soortRelatie
+          rol
+          relatie
+          organisatienaam
+          geslachtsnaam
+          voorvoegselGeslachtsnaam
+          partnernaam
+          voorvoegselPartnernaam
+          voornamen
+          voorletters
+          roepnaam
+          naamgebruik
+          geslacht
+          geboortedatum
+          geboortedatumgebruik
+          ingangsdatum
+          einddatum
+        }
+      }
+    }
+    overdrachtspecificatie {
+      overdrachtspecificatieID
+      leveringsstatus
+      leveringsstatusClassificatie
+      oorspronkelijkeToewijzingEinddatum
+      bemiddelingspecificatie {
+        bemiddelingspecificatieID
+        leveringsvorm
+        zzpCode
+        toewijzingIngangsdatum
+        toewijzingEinddatum
+        instelling
+        uitvoerendZorgkantoor
+        vaststellingMoment
+        percentage
+        opname
+        redenIntrekking
+        etmalen
+        instellingBestemming
+        soortToewijzing
+        # Hiervan mag je niet de bemiddeling ophalen
+      }
+    }
+  }
+}
