@@ -1,0 +1,13 @@
+# QIR-0001-ZKi.graphql
+# Query voor (initieel) Zorgkantoor op Indicatieregister
+# Verplichte input:
+#   - wlzIndicatieID
+#   - uzovicode zorgkantoor
+
+query WlzIndicatie (
+    $wlzindicatieID: UUID!
+) {
+    getWlzIndicatieVoorIndicatieID (wlzindicatieID: $wlzindicatieID) {
+        wlzindicatieID
+    }
+}

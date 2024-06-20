@@ -1,7 +1,7 @@
 """
 Graphql Schemadefinitie voor het Bemiddelingregister
-Versie 1.1.0
-datum 2024-06-01
+Versie 2.0.0-rc1
+datum 2024-06-20
 Gebaseerd op Bemiddelingregister 1
 """
 
@@ -30,7 +30,6 @@ type Query {
 }
 
 """ OBJECT types """
-
 type Client {
   bemiddeling(
     where: BemiddelingFilterInput
@@ -486,7 +485,6 @@ input ClientFilterInput {
   and: [ClientFilterInput!]
   or: [ClientFilterInput!]
   clientID: UuidOperationFilterInput
-  verantwoordelijkZorgkantoor: StringOperationFilterInput
   bsn: StringOperationFilterInput
   leefeenheid: StringOperationFilterInput
   huisarts: StringOperationFilterInput
@@ -501,7 +499,6 @@ input ClientFilterInput {
 
 input ClientSortInput {
   clientID: SortEnumType
-  verantwoordelijkZorgkantoor: SortEnumType
   bsn: SortEnumType
   leefeenheid: SortEnumType
   huisarts: SortEnumType
@@ -534,7 +531,7 @@ input BemiddelingSortInput {
   overdracht: OverdrachtSortInput
 }
 
-" ListFilterInputType_FilterInput types "
+""" ListFilterInputType_FilterInput types """
 input ListFilterInputTypeOfOverdrachtspecificatieFilterInput {
   all: OverdrachtspecificatieFilterInput
   none: OverdrachtspecificatieFilterInput
