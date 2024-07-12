@@ -4,4 +4,3 @@ themes/ananke
 go.mod
 go.sum
 .DS_Store
-.graphqlrc.yml

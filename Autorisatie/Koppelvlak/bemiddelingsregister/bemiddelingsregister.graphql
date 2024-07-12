@@ -1,7 +1,7 @@
 """
 Graphql Schemadefinitie voor het Bemiddelingregister
-Versie 2.0.0-rc1
-datum 2024-06-20
+Versie 2.1.0-rc1
+datum 2024-06-27
 Gebaseerd op Bemiddelingregister 1
 """
 
@@ -43,14 +43,14 @@ type Client {
     where: ClientContactgegevensFilterInput
     order: [ClientContactgegevensSortInput!]
   ): [ClientContactgegevens!]
-  coordinatorZorgThuis(
-    where: CoordinatorZorgThuisFilterInput
-    order: [CoordinatorZorgThuisSortInput!]
-  ): [CoordinatorZorgThuis!]
-  dossierhouder(
-    where: DossierhouderFilterInput
-    order: [DossierhouderSortInput!]
-  ): [Dossierhouder!]
+  # coordinatorZorgThuis(
+  #   where: CoordinatorZorgThuisFilterInput
+  #   order: [CoordinatorZorgThuisSortInput!]
+  # ): [CoordinatorZorgThuis!]
+  # dossierhouder(
+  #   where: DossierhouderFilterInput
+  #   order: [DossierhouderSortInput!]
+  # ): [Dossierhouder!]
   clientID: UUID!
   bsn: String!
   leefeenheid: String #COD478: Leefeenheid
@@ -64,6 +64,14 @@ type Bemiddeling {
     where: BemiddelingspecificatieFilterInput
     order: [BemiddelingspecificatieSortInput!]
   ): [Bemiddelingspecificatie!]
+  coordinatorZorgThuis(
+    where: CoordinatorZorgThuisFilterInput
+    order: [CoordinatorZorgThuisSortInput!]
+  ): [CoordinatorZorgThuis!]
+  dossierhouder(
+    where: DossierhouderFilterInput
+    order: [DossierhouderSortInput!]
+  ): [Dossierhouder!]
   bemiddelingID: UUID!
   client: Client!
   wlzIndicatieID: UUID!
@@ -97,7 +105,8 @@ type CoordinatorZorgThuis {
   instelling: String!
   ingangsdatum: Date!
   einddatum: Date
-  client: Client!
+  # client: Client!
+  bemiddeling: Bemiddeling!
 }
 
 type Dossierhouder {
@@ -105,7 +114,8 @@ type Dossierhouder {
   instelling: String!
   ingangsdatum: Date!
   einddatum: Date
-  client: Client!
+  # client: Client!
+  bemiddeling: Bemiddeling!
 }
 
 type Overdracht {

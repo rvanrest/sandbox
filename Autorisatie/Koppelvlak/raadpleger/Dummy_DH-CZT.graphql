@@ -1,0 +1,51 @@
+query bemiddeling(
+    $bemiddelingID: UUID!
+    $instelling: String!
+){
+    bemiddeling(
+        where:  {
+          bemiddelingID:  {
+             eq: $bemiddelingID
+          } 
+        })
+        {
+            bemiddelingID
+            wlzIndicatieID
+            dossierhouder(
+                where:  {
+                   instelling:  {
+                      eq: $instelling
+                   }
+                }
+            ) {
+                dossierhouderID
+                instelling
+                ingangsdatum
+                einddatum
+
+            }
+            coordinatorZorgThuis(
+                where:  {
+                   instelling:  {
+                      eq: $instelling
+                   }
+                }
+            ){
+                instelling
+            }
+            bemiddelingspecificatie(
+                        where:  {
+                           instelling:  {
+                              eq: $instelling
+                           }
+                        }
+                    ) {
+                        toewijzingIngangsdatum
+                        bemiddelingspecificatieID
+                    }
+            
+
+        }
+
+
+}
