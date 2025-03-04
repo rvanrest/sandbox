@@ -13,6 +13,7 @@ Notificatie aan het zorgkantoor als het CIZ een nieuwe Wlz-indicatie heeft gereg
 Stel notificatie op voor: het zorgkantoor van de regio waarin de client volgens zijn BRP-adres woont. Als er geen BRP-adres is, stel dan notificatie op voor: het zorgkantoor van de regio waarin de client volgens zijn verblijfadres woont
 
 ## Flow
+![image](./bpmn/nieuwe_notificatie_zorgkantoor.svg)
 
 ## Inhoud van de notificatie
 
