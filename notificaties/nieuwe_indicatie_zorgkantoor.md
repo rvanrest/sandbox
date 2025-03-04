@@ -1,19 +1,15 @@
 # Notificatie: Nieuwe Indicatie aan het zorgkantoor
 
-- trigger
-
-- flow
-- inhoud notificatie
-- Verwijzing naar afsprakenstelsel notificatis
-
-## Documentatie notificatie
 Notificatie aan het zorgkantoor als het CIZ een nieuwe Wlz-indicatie heeft geregistreerd voor een cliënt die in de regio van dit zorgkantoor woont
 
-## Trigger
-Stel notificatie op voor: het zorgkantoor van de regio waarin de client volgens zijn BRP-adres woont. Als er geen BRP-adres is, stel dan notificatie op voor: het zorgkantoor van de regio waarin de client volgens zijn verblijfadres woont
+## Aanleiding
+**De trigger voor de notificatie is:** de registratie van een Wlz indicatie in het Indicatieregister
+
+## Instructie
+**Stel notificatie op voor:** het zorgkantoor van de regio waarin de client volgens zijn BRP-adres woont. Als er geen BRP-adres is, stel dan notificatie op voor: het zorgkantoor van de regio waarin de client volgens zijn verblijfadres woont
 
 ## Flow
-![image](./bpmn/nieuwe_notificatie_zorgkantoor.svg)
+![image](/notificaties/bpmn/nieuwe_indicatie_zorgkantoor.svg)
 
 ## Inhoud van de notificatie
 
