@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_1drr5fc">
     <bpmn:participant id="Participant_0voh6j6" name="CIZ" processRef="Process_04qwru2" />
     <bpmn:participant id="Participant_0b1m1q9" name="Verantwoordelijk Zorgkantoor" processRef="Process_1ugcjco" />
-    <bpmn:messageFlow id="Flow_0xo1gju" sourceRef="Event_1tbemz2" targetRef="Event_1fdd63c" />
+    <bpmn:messageFlow id="Flow_0xo1gju" sourceRef="Participant_0voh6j6" targetRef="Participant_0b1m1q9" />
   </bpmn:collaboration>
   <bpmn:process id="Process_04qwru2" isExecutable="false">
     <bpmn:startEvent id="StartEvent_184wjmq" name="Registratie van een Indicatie">
@@ -22,7 +22,7 @@
     <bpmn:sequenceFlow id="Flow_0x5qerh" sourceRef="Activity_1urm4d8" targetRef="Event_1tbemz2" />
   </bpmn:process>
   <bpmn:process id="Process_1ugcjco">
-    <bpmn:intermediateCatchEvent id="Event_1fdd63c">
+    <bpmn:intermediateCatchEvent id="Event_1fdd63c" name="Ontvang notificatie">
       <bpmn:outgoing>Flow_0yshp7t</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1x2a32w" />
     </bpmn:intermediateCatchEvent>
@@ -72,6 +72,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0asitjq_di" bpmnElement="Event_1fdd63c">
         <dc:Bounds x="792" y="192" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="787" y="235" width="47" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0exvmix_di" bpmnElement="Activity_0exvmix">
         <dc:Bounds x="880" y="170" width="100" height="80" />
@@ -92,8 +95,8 @@
         <di:waypoint x="1032" y="210" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0xo1gju_di" bpmnElement="Flow_0xo1gju" bioc:stroke="#205022" color:border-color="#205022">
-        <di:waypoint x="528" y="210" />
-        <di:waypoint x="792" y="210" />
+        <di:waypoint x="580" y="210" />
+        <di:waypoint x="710" y="210" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
